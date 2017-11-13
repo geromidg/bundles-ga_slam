@@ -19,10 +19,10 @@ Orocos.run "camera_bb2::Task" => "camera_bb2",
            :valgrind_options => ['--track-origins=yes'],
            :output => '%m-%p.log' \
 do
-    bag = Orocos::Log::Replay.open("~/workspace/rock/logs/slam_test/bb2.log")
+    bag = Orocos::Log::Replay.open(
+        "~/rock_bags/bb2.log",
+        "~/rock_bags/gps.log")
     bag.use_sample_time = true
-    gps = Orocos::Log::Replay.open("~/workspace/rock/logs/slam_test/gps.log")
-    gps.use_sample_time = true
 
     camera_bb2 = TaskContext.get 'camera_bb2'
     Orocos.conf.apply(camera_bb2, ['default'], :override => true)
@@ -49,24 +49,20 @@ do
 
     ####### Vizkit #######
 
-    control_1 = Vizkit.control bag
-    control_1.speed = 1
-    control_1.seek_to 1000
-    control_1.bplay_clicked
-
-    # control_2 = Vizkit.control gps
-    # control_2.speed = 1
-    # control_2.seek_to 3562
-    # control_2.bplay_clicked
+    control = Vizkit.control bag
+    control.speed = 1
+    control.seek_to 1000
+    control.bplay_clicked
 
     Vizkit.display camera_bb2.left_frame
     Vizkit.display stereo.point_cloud
     Vizkit.display viso2.point_cloud_samples_out
-
-    # Vizkit.display gps.gps_heading.pose_samples_out,
-        # :widget => Vizkit.default_loader.RigidBodyStateVisualization
     Vizkit.display viso2.pose_samples_out,
         :widget => Vizkit.default_loader.RigidBodyStateVisualization
+    Vizkit.display viso2.pose_samples_out,
+        :widget => Vizkit.default_loader.TrajectoryVisualization
+    # Vizkit.display bag.gps_heading.pose_samples_out,
+        # :widget => Vizkit.default_loader.RigidBodyStateVisualization
 
     Vizkit.exec
 end
