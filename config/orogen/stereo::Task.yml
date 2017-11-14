@@ -104,15 +104,6 @@ image_rotated: false
 # down- or upscale input images by this factor.
 image_scaling_factor: 1.0
 
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-output_format_sync: :MODE_RGB
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-organized_output_point_cloud: true
-
 # configuration values for libElas
 libElas_conf:
   disp_min: 5
