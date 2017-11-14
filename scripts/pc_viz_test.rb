@@ -17,7 +17,6 @@ Orocos.run "camera_bb2::Task" => "camera_bb2",
            # :gdb => ['stereo'],
            # :valgrind => ['stereo'],
            :valgrind_options => ['--track-origins=yes'],
-           :wait => '1',
            :output => '%m-%p.log' \
 do
     bag = Orocos::Log::Replay.open(
