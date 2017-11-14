@@ -1,7 +1,5 @@
 #! /usr/bin/env ruby
 
-require 'orocos'
-require 'orocos/log'
 require 'rock/bundle'
 require 'vizkit'
 
