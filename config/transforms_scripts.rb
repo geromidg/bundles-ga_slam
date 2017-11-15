@@ -1,5 +1,6 @@
-static_transform Eigen::Quaternion.from_euler(
-    Eigen::Vector3.new(-1.5666, 0.02348, -2.145), 2,1,0),
+static_transform \
+    Eigen::Quaternion.from_euler(
+        Eigen::Vector3.new(-1.5666, 0.02348, -2.145), 2, 1, 0),
     Eigen::Vector3.new(0.527, 0.0738, 0.0588),
     "left_camera_viso2" => "body"
 

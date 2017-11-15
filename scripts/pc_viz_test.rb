@@ -12,10 +12,11 @@ Bundles.transformer.load_conf(
 Orocos.run "camera_bb2::Task" => "camera_bb2",
            "stereo::Task" => "stereo",
            "viso2::StereoOdometer" => "viso2",
-           # :gdb => ['stereo'],
+           "cartographer::Task" => "cartographer",
+           # :output => '%m-%p.log' \
+           # :gdb => ['cartographer'],
            # :valgrind => ['stereo'],
-           :valgrind_options => ['--track-origins=yes'],
-           :output => '%m-%p.log' \
+           :valgrind_options => ['--track-origins=yes'] \
 do
     bag = Orocos::Log::Replay.open(
         "~/rock_bags/bb2.log",
@@ -35,15 +36,22 @@ do
     Bundles.transformer.setup(viso2)
     viso2.configure
 
+    cartographer = TaskContext.get 'cartographer'
+    Bundles.transformer.setup(cartographer)
+    cartographer.configure
+
     bag.camera_firewire_bb2.frame.connect_to    camera_bb2.frame_in
     camera_bb2.left_frame.connect_to            stereo.left_frame
     camera_bb2.right_frame.connect_to           stereo.right_frame
     camera_bb2.left_frame.connect_to            viso2.left_frame
     camera_bb2.right_frame.connect_to           viso2.right_frame
+    stereo.distance_frame.connect_to            cartographer.distance_image
+    viso2.pose_samples_out.connect_to           cartographer.pose_imu
 
     camera_bb2.start
     stereo.start
     viso2.start
+    cartographer.start
 
     ####### Vizkit #######
 
@@ -52,15 +60,20 @@ do
     control.seek_to 1000
     control.bplay_clicked
 
-    Vizkit.display camera_bb2.left_frame
-    Vizkit.display stereo.point_cloud
-    Vizkit.display viso2.point_cloud_samples_out
     Vizkit.display viso2.pose_samples_out,
         :widget => Vizkit.default_loader.RigidBodyStateVisualization
     Vizkit.display viso2.pose_samples_out,
         :widget => Vizkit.default_loader.TrajectoryVisualization
     # Vizkit.display bag.gps_heading.pose_samples_out,
         # :widget => Vizkit.default_loader.RigidBodyStateVisualization
+
+    # Vizkit.display camera_bb2.left_frame
+    # Vizkit.display stereo.point_cloud
+    # Vizkit.display viso2.point_cloud_samples_out
+    # Vizkit.display cartographer.heightMap_frame
+    # Vizkit.display cartographer.heightMapInterp_frame
+    # Vizkit.display cartographer.pointcloud_in
+    Vizkit.display cartographer.pointcloud_filter
 
     Vizkit.exec
 end
