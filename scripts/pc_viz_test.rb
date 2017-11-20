@@ -86,7 +86,7 @@ do
     # Vizkit.display cartographer.heightMap_frame
     # Vizkit.display cartographer.heightMapInterp_frame
     # Vizkit.display cartographer.pointcloud_in
-    # Vizkit.display cartographer.pointcloud_filter
+    Vizkit.display cartographer.pointcloud_filter
 
     Vizkit.exec
 end
