@@ -50,6 +50,8 @@ do
     # viso2.configure
 
     ga_slam = TaskContext.get 'ga_slam'
+    Orocos.conf.apply(ga_slam, ['default'], :override => true)
+    # Orocos.conf.apply(ga_slam, ['test'], :override => true)
     Bundles.transformer.setup(ga_slam)
     ga_slam.configure
 
@@ -100,7 +102,7 @@ do
     # Vizkit.display viso2.point_cloud_samples_out
     Vizkit.display ga_slam.filteredPointCloud
 
-    # Vizkit.display ga_slam.elevationMap
+    Vizkit.display ga_slam.elevationMap
 
     Vizkit.exec
 end
