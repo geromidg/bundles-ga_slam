@@ -101,8 +101,13 @@ do
     # Vizkit.display stereo.point_cloud
     # Vizkit.display viso2.point_cloud_samples_out
     Vizkit.display ga_slam.filteredPointCloud
+    # Vizkit.display ga_slam.mapPointCloud
 
-    Vizkit.display ga_slam.elevationMap
+    Vizkit.display ga_slam.rawElevationMap
+    # Vizkit.display ga_slam.elevationMap
+
+    ####### RViz #######
+    # exec 'roslaunch ga_slam_visualization ga_slam_visualization.launch'
 
     Vizkit.exec
 end
