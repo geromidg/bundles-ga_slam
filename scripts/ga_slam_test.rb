@@ -50,8 +50,8 @@ do
     # viso2.configure
 
     ga_slam = TaskContext.get 'ga_slam'
-    Orocos.conf.apply(ga_slam, ['default'], :override => true)
-    # Orocos.conf.apply(ga_slam, ['test'], :override => true)
+    # Orocos.conf.apply(ga_slam, ['default'], :override => true)
+    Orocos.conf.apply(ga_slam, ['test'], :override => true)
     Bundles.transformer.setup(ga_slam)
     ga_slam.configure
 
@@ -78,8 +78,8 @@ do
     ####### Vizkit #######
     control = Vizkit.control bag
     control.speed = 1
-    # control.seek_to 60000
-    control.seek_to 15500
+    control.seek_to 60000
+    # control.seek_to 15500
     control.bplay_clicked
 
     # Vizkit.display viso2.pose_samples_out,
@@ -100,10 +100,10 @@ do
 
     # Vizkit.display stereo.point_cloud
     # Vizkit.display viso2.point_cloud_samples_out
-    Vizkit.display ga_slam.filteredPointCloud
+    # Vizkit.display ga_slam.filteredPointCloud
     # Vizkit.display ga_slam.mapPointCloud
 
-    Vizkit.display ga_slam.rawElevationMap
+    # Vizkit.display ga_slam.rawElevationMap
     # Vizkit.display ga_slam.elevationMap
 
     ####### RViz #######
