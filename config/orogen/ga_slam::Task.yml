@@ -9,6 +9,10 @@ minElevation: -5.0
 maxElevation: 5.0
 
 --- name:test
+debugInfoEnabled: true
+rawMapDebugEnabled: true
+pointCloudDebugEnabled: false
+serializationDebugEnabled: true
 mapSizeX: 50.0
 mapSizeY: 50.0
 robotPositionX: 0.0
