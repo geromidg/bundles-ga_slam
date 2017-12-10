@@ -13,12 +13,12 @@ debugInfoEnabled: true
 rawMapDebugEnabled: true
 pointCloudDebugEnabled: false
 serializationDebugEnabled: true
-mapSizeX: 50.0
-mapSizeY: 50.0
+mapSizeX: 20.0
+mapSizeY: 20.0
 robotPositionX: 0.0
 robotPositionY: 0.0
-mapResolution: 0.5
-voxelSize: 0.5
+mapResolution: 0.2
+voxelSize: 0.2
 minElevation: -2.0
 maxElevation: 2.0
 
