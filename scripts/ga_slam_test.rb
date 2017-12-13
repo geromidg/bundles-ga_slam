@@ -23,7 +23,7 @@ Orocos.run(
     # :valgrind => ['stereo'],
     :valgrind_options => ['--track-origins=yes']) \
 do
-    ####### Replay #######
+    ####### Replay Logs #######
     bag = Orocos::Log::Replay.open(
         '~/rock_bags/bb2.log',
         '~/rock_bags/bb3.log',
@@ -32,7 +32,7 @@ do
     )
     bag.use_sample_time = true
 
-    ####### Configure #######
+    ####### Configure Tasks #######
     # camera_bb2 = TaskContext.get 'camera_bb2'
     # Orocos.conf.apply(camera_bb2, ['default'], :override => true)
     # camera_bb2.configure
@@ -59,7 +59,7 @@ do
     gps_transformer = TaskContext.get 'gps_transformer'
     gps_transformer.configure
 
-    ####### Connect #######
+    ####### Connect Task Ports #######
     # bag.camera_firewire_bb2.frame.connect_to              camera_bb2.frame_in
     bag.camera_firewire_bb3.frame.connect_to              camera_bb3.frame_in
     bag.gps_heading.pose_samples_out.connect_to           gps_transformer.
@@ -74,7 +74,7 @@ do
     # viso2.pose_samples_out.connect_to                     ga_slam.pose
     gps_transformer.outputPose.connect_to                 ga_slam.pose
 
-    ####### Start #######
+    ####### Start Tasks #######
     # camera_bb2.start
     camera_bb3.start
     stereo.start
@@ -82,12 +82,7 @@ do
     ga_slam.start
     gps_transformer.start
 
-    ####### Vizkit #######
-    control = Vizkit.control bag
-    control.speed = 1
-    control.seek_to 2600
-    control.bplay_clicked
-
+    ####### Vizkit Display #######
     # Vizkit.display viso2.pose_samples_out,
         # :widget => Vizkit.default_loader.RigidBodyStateVisualization
     # Vizkit.display viso2.pose_samples_out,
@@ -112,9 +107,17 @@ do
     # Vizkit.display ga_slam.rawElevationMap
     # Vizkit.display ga_slam.elevationMap
 
-    ####### RViz #######
-    # exec 'roslaunch ga_slam_visualization ga_slam_visualization.launch'
+    ####### Vizkit Replay Control #######
+    control = Vizkit.control bag
+    control.speed = 1
+    control.seek_to 2600
+    control.bplay_clicked
 
+    ####### ROS RViz #######
+    # spawn 'roslaunch ga_slam_visualization ga_slam_visualization.launch'
+    # sleep 3
+
+    ####### Vizkit #######
     Vizkit.exec
 end
 
