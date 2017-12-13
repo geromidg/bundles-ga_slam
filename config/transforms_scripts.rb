@@ -26,14 +26,14 @@ static_transform \
 
 static_transform \
     Quaternion.from_euler(Vector.new(
-        0.025,
-        0.321,
-        -0.066),
+        -PI/2 - 0.006,
+        0.021,
+        -PI/2 - 0.296),
         2, 1, 0),
     Vector.new(
         0.426,
-        0.0,
-        1.300),
+        0.129,
+        0.491),
     'left_camera_bb3' => 'body'
 
 static_transform \
@@ -61,12 +61,17 @@ static_transform \
         1.860),
     'ptu' => 'body'
 
+# static_transform Quaternion.Identity(), Vector.new(0.0, 0.0, 0.65),
+static_transform Quaternion.Identity(), Vector.new(0.0, 0.0, 0.50),
+    'body' => 'ground'
+
 static_transform Quaternion.Identity(), Vector.Zero(),
     # 'left_camera_viso2' => 'left_camera_bb2_optical'
     'left_camera_viso2' => 'left_camera_bb2'
 
 static_transform Quaternion.Identity(), Vector.Zero(),
-    # 'slamCamera' => 'left_camera_bb2_optical'
-    'slamCamera' => 'left_camera_bb3_optical'
-    # 'slamCamera' => 'left_camera_pancam_optical'
+    # 'slamSensor' => 'left_camera_bb2_optical'
+    # 'slamSensor' => 'left_camera_bb3_optical'
+    'slamSensor' => 'left_camera_bb3'
+    # 'slamSensor' => 'left_camera_pancam_optical'
 
