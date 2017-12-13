@@ -9,14 +9,14 @@ static_transform \
 
 static_transform \
     Quaternion.from_euler(Vector.new(
-        0.0,
+        -PI/2 + 0.0,
         0.023,
-        -0.574),
+        -PI/2 - 0.574),
         2, 1, 0),
     Vector.new(
         0.527,
         0.073,
-        0.858),
+        0.058),
     'left_camera_bb2' => 'body'
 
 static_transform \
@@ -62,6 +62,7 @@ static_transform \
     'ptu' => 'body'
 
 static_transform Quaternion.Identity(), Vector.Zero(),
+    # 'left_camera_viso2' => 'left_camera_bb2_optical'
     'left_camera_viso2' => 'left_camera_bb2'
 
 static_transform Quaternion.Identity(), Vector.Zero(),
