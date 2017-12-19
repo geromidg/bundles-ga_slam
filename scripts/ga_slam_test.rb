@@ -70,9 +70,9 @@ do
     # camera_bb2.left_frame.connect_to                      viso2.left_frame
     # camera_bb2.right_frame.connect_to                     viso2.right_frame
 
-    stereo.point_cloud.connect_to                         ga_slam.pointCloud
-    # viso2.pose_samples_out.connect_to                     ga_slam.pose
-    gps_transformer.outputPose.connect_to                 ga_slam.pose
+    stereo.point_cloud.connect_to                         ga_slam.cloud
+    # viso2.pose_samples_out.connect_to                     ga_slam.poseGuess
+    gps_transformer.outputPose.connect_to                 ga_slam.poseGuess
 
     ####### Start Tasks #######
     # camera_bb2.start
@@ -91,9 +91,9 @@ do
     #     :widget => Vizkit.default_loader.RigidBodyStateVisualization
     # Vizkit.display gps_transformer.outputPose,
     #     :widget => Vizkit.default_loader.TrajectoryVisualization
-    # Vizkit.display ga_slam.outputPose,
+    # Vizkit.display ga_slam.estimatedPose,
         # :widget => Vizkit.default_loader.RigidBodyStateVisualization
-    # Vizkit.display ga_slam.outputPose,
+    # Vizkit.display ga_slam.estimatedPose,
         # :widget => Vizkit.default_loader.TrajectoryVisualization
 
     # Vizkit.display camera_bb2.left_frame
@@ -101,8 +101,8 @@ do
 
     # Vizkit.display stereo.point_cloud
     # Vizkit.display viso2.point_cloud_samples_out
-    # Vizkit.display ga_slam.filteredPointCloud
-    # Vizkit.display ga_slam.mapPointCloud
+    # Vizkit.display ga_slam.processedCloud
+    # Vizkit.display ga_slam.mapCloud
 
     # Vizkit.display ga_slam.rawElevationMap
     # Vizkit.display ga_slam.elevationMap
