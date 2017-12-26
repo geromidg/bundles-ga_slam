@@ -17,4 +17,11 @@ mapResolution: 0.2
 minElevation: -2.0
 maxElevation: 2.0
 voxelSize: 0.2
+numParticles: 50
+initialSigmaX: 0.0
+initialSigmaY: 0.0
+initialSigmaYaw: 0.0
+predictSigmaX: 0.05
+predictSigmaY: 0.05
+predictSigmaYaw: 3.14/36
 
