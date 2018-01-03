@@ -69,9 +69,14 @@ static_transform Quaternion.Identity(), Vector.Zero(),
     # 'left_camera_viso2' => 'left_camera_bb2_optical'
     'left_camera_viso2' => 'left_camera_bb2'
 
-static_transform Quaternion.Identity(), Vector.Zero(),
+# static_transform Quaternion.Identity(), Vector.Zero(),
     # 'slamSensor' => 'left_camera_bb2_optical'
     # 'slamSensor' => 'left_camera_bb3_optical'
-    'slamSensor' => 'left_camera_bb3'
     # 'slamSensor' => 'left_camera_pancam_optical'
+
+static_transform Quaternion.Identity(), Vector.Zero(),
+    'hazcam' => 'left_camera_bb2'
+
+static_transform Quaternion.Identity(), Vector.Zero(),
+    'loccam' => 'left_camera_bb3'
 

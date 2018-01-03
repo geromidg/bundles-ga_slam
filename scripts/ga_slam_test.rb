@@ -11,7 +11,7 @@ Bundles.transformer.load_conf(
 
 Orocos.run(
     ####### Tasks #######
-    # 'camera_bb2::Task' => 'camera_bb2',
+    'camera_bb2::Task' => 'camera_bb2',
     'camera_bb3::Task' => 'camera_bb3',
     'stereo::Task' => 'stereo',
     # 'viso2::StereoOdometer' => 'viso2',
@@ -20,30 +20,39 @@ Orocos.run(
     ####### Debug #######
     # :output => '%m-%p.log',
     # :gdb => ['ga_slam'],
-    # :valgrind => ['stereo'],
+    # :valgrind => ['ga_slam'],
     :valgrind_options => ['--track-origins=yes']) \
 do
     ####### Replay Logs #######
     bag = Orocos::Log::Replay.open(
         '~/rock_bags/bb2.log',
         '~/rock_bags/bb3.log',
+        # '~/rock_bags/pancam.log',
         '~/rock_bags/waypoint_navigation.log',
         '~/rock_bags/imu.log',
     )
     bag.use_sample_time = true
 
     ####### Configure Tasks #######
-    # camera_bb2 = TaskContext.get 'camera_bb2'
-    # Orocos.conf.apply(camera_bb2, ['default'], :override => true)
-    # camera_bb2.configure
+    camera_bb2 = TaskContext.get 'camera_bb2'
+    Orocos.conf.apply(camera_bb2, ['default'], :override => true)
+    camera_bb2.configure
 
     camera_bb3 = TaskContext.get 'camera_bb3'
     Orocos.conf.apply(camera_bb3, ['default'], :override => true)
     camera_bb3.configure
 
-    stereo = TaskContext.get 'stereo'
-    Orocos.conf.apply(stereo, ['hdpr_bb3_left_right'], :override => true)
-    stereo.configure
+    stereo_bb2 = TaskContext.get 'stereo_bb2'
+    Orocos.conf.apply(stereo_bb2, ['hdpr_bb2'], :override => true)
+    stereo_bb2.configure
+
+    stereo_bb3 = TaskContext.get 'stereo_bb3'
+    Orocos.conf.apply(stereo_bb3, ['hdpr_bb3_left_right'], :override => true)
+    stereo_bb3.configure
+
+    # stereo_pancam = TaskContext.get 'stereo_bb3'
+    # Orocos.conf.apply(stereo_pancam, ['panCam'], :override => true)
+    # stereo_pancam.configure
 
     # viso2 = TaskContext.get 'viso2'
     # Orocos.conf.apply(viso2, ['bumblebee'], :override => true)
@@ -60,24 +69,31 @@ do
     gps_transformer.configure
 
     ####### Connect Task Ports #######
-    # bag.camera_firewire_bb2.frame.connect_to              camera_bb2.frame_in
+    bag.camera_firewire_bb2.frame.connect_to              camera_bb2.frame_in
     bag.camera_firewire_bb3.frame.connect_to              camera_bb3.frame_in
     bag.gps_heading.pose_samples_out.connect_to           gps_transformer.
                                                               inputPose
 
-    camera_bb3.left_frame.connect_to                      stereo.left_frame
-    camera_bb3.right_frame.connect_to                     stereo.right_frame
+    camera_bb2.left_frame.connect_to                      stereo_bb2.left_frame
+    camera_bb2.right_frame.connect_to                     stereo_bb2.right_frame
+    camera_bb3.left_frame.connect_to                      stereo_bb3.left_frame
+    camera_bb3.right_frame.connect_to                     stereo_bb3.right_frame
+
     # camera_bb2.left_frame.connect_to                      viso2.left_frame
     # camera_bb2.right_frame.connect_to                     viso2.right_frame
 
-    stereo.point_cloud.connect_to                         ga_slam.cloud
+    stereo_bb2.point_cloud.connect_to                     ga_slam.hazcamCloud
+    stereo_bb3.point_cloud.connect_to                     ga_slam.loccamCloud
+    # stereo_pancam.point_cloud.connect_to                  ga_slam.pancamCloud
     # viso2.pose_samples_out.connect_to                     ga_slam.poseGuess
     gps_transformer.outputPose.connect_to                 ga_slam.poseGuess
 
     ####### Start Tasks #######
-    # camera_bb2.start
+    camera_bb2.start
     camera_bb3.start
-    stereo.start
+    stereo_bb2.start
+    stereo_bb3.start
+    # stereo_pancam.start
     # viso2.start
     ga_slam.start
     gps_transformer.start
@@ -96,10 +112,12 @@ do
     # Vizkit.display ga_slam.estimatedPose,
         # :widget => Vizkit.default_loader.TrajectoryVisualization
 
-    # Vizkit.display camera_bb2.left_frame
+    Vizkit.display camera_bb2.left_frame
     Vizkit.display camera_bb3.left_frame
 
-    # Vizkit.display stereo.point_cloud
+    # Vizkit.display stereo_bb2.point_cloud
+    # Vizkit.display stereo_bb3.point_cloud
+    # Vizkit.display stereo_pancam.point_cloud
     # Vizkit.display viso2.point_cloud_samples_out
     # Vizkit.display ga_slam.processedCloud
     # Vizkit.display ga_slam.mapCloud
