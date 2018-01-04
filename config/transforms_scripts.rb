@@ -9,7 +9,7 @@ static_transform \
 
 static_transform \
     Quaternion.from_euler(Vector.new(
-        -PI/2 + 0.0,
+        -PI/2 - 0.004,
         0.023,
         -PI/2 - 0.574),
         2, 1, 0),
@@ -42,27 +42,34 @@ static_transform \
     'left_camera_pancam_optical' => 'left_camera_pancam'
 
 static_transform \
-    Quaternion.Identity(),
+    Quaternion.from_euler(Vector.new(
+        -PI/2,
+        0.0,
+        -PI/2),
+        2, 1, 0),
     Vector.new(
         0.010,
         0.250,
         0.055),
-    'left_camera_pancam' => 'ptu'
+    'left_camera_pancam' => 'pancam_base'
+    # 'left_camera_pancam' => 'pancam_pan'
+
+# dynamic_transform 'ptu_directedperception.pan_angle',
+    # 'pancam_pan' => 'pancam_tilt'
+
+# dynamic_transform 'ptu_directedperception.tilt_angle',
+    # 'pancam_tilt' => 'pancam_base'
 
 static_transform \
-    Quaternion.from_euler(Vector.new(
-        -PI/2,
-        -0.050 + 0.392,
-        -PI/2),
-        2, 1, 0),
+    Quaternion.Identity(),
     Vector.new(
-        0.138,
-        -0.005,
-        1.860),
-    'ptu' => 'body'
+        0.231,
+        -0.017,
+        1.187),
+    'pancam_base' => 'body'
 
 # static_transform Quaternion.Identity(), Vector.new(0.0, 0.0, 0.65),
-static_transform Quaternion.Identity(), Vector.new(0.0, 0.0, 0.50),
+static_transform Quaternion.Identity(), Vector.new(0.0, 0.0, 0.57),
     'body' => 'ground'
 
 static_transform Quaternion.Identity(), Vector.Zero(),
@@ -79,4 +86,7 @@ static_transform Quaternion.Identity(), Vector.Zero(),
 
 static_transform Quaternion.Identity(), Vector.Zero(),
     'loccam' => 'left_camera_bb3'
+
+static_transform Quaternion.Identity(), Vector.Zero(),
+    'pancam' => 'left_camera_pancam'
 
