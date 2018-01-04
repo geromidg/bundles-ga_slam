@@ -13,7 +13,7 @@ Orocos.run(
     ####### Tasks #######
     'camera_bb2::Task' => 'camera_bb2',
     'camera_bb3::Task' => 'camera_bb3',
-    'stereo::Task' => 'stereo',
+    'stereo::Task' => ['stereo_bb2', 'stereo_bb3'],
     # 'viso2::StereoOdometer' => 'viso2',
     'ga_slam::Task' => 'ga_slam',
     'gps_transformer::Task' => 'gps_transformer',
