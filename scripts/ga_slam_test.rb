@@ -16,6 +16,7 @@ Orocos.run(
     'stereo::Task' => ['stereo_bb2', 'stereo_bb3', 'stereo_pancam'],
     # 'viso2::StereoOdometer' => 'viso2',
     'ga_slam::Task' => 'ga_slam',
+    'pancam_transformer::Task' => 'pancam_transformer',
     'gps_transformer::Task' => 'gps_transformer',
     ####### Debug #######
     # :output => '%m-%p.log',
@@ -65,6 +66,10 @@ do
     Bundles.transformer.setup(ga_slam)
     ga_slam.configure
 
+    pancam_transformer = TaskContext.get 'pancam_transformer'
+    # Orocos.conf.apply(pancam_transformer, ['default'], :override => true)
+    pancam_transformer.configure
+
     gps_transformer = TaskContext.get 'gps_transformer'
     gps_transformer.configure
 
@@ -86,12 +91,15 @@ do
     # camera_bb2.left_frame.connect_to                viso2.left_frame
     # camera_bb2.right_frame.connect_to               viso2.right_frame
 
-    # viso2.pose_samples_out.connect_to               ga_slam.poseGuess
-    bag.gps_heading.pose_samples_out.connect_to     gps_transformer.inputPose
-    gps_transformer.outputPose.connect_to           ga_slam.poseGuess
+    bag.pancam_panorama.
+        tilt_angle_out_degrees.connect_to           pancam_transformer.pitch
+    bag.pancam_panorama.
+        pan_angle_out_degrees.connect_to            pancam_transformer.yaw
 
-    bag.pancam_panorama.pan_angle_out_degrees.connect_to    ga_slam.ptu_pan
-    bag.pancam_panorama.tilt_angle_out_degrees.connect_to   ga_slam.ptu_tilt
+    bag.gps_heading.pose_samples_out.connect_to     gps_transformer.inputPose
+
+    # viso2.pose_samples_out.connect_to               ga_slam.poseGuess
+    gps_transformer.outputPose.connect_to           ga_slam.poseGuess
 
     ####### Start Tasks #######
     camera_bb2.start
@@ -101,6 +109,7 @@ do
     stereo_pancam.start
     # viso2.start
     ga_slam.start
+    pancam_transformer.start
     gps_transformer.start
 
     ####### Vizkit Display #######
@@ -125,7 +134,7 @@ do
     # Vizkit.display stereo_bb3.point_cloud
     # Vizkit.display stereo_pancam.point_cloud
     # Vizkit.display viso2.point_cloud_samples_out
-    # Vizkit.display ga_slam.processedCloud
+    Vizkit.display ga_slam.processedCloud
     # Vizkit.display ga_slam.mapCloud
 
     # Vizkit.display ga_slam.rawElevationMap
