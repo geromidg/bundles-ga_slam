@@ -69,24 +69,23 @@ do
     gps_transformer.configure
 
     ####### Connect Task Ports #######
-    bag.camera_firewire_bb2.frame.connect_to              camera_bb2.frame_in
-    bag.camera_firewire_bb3.frame.connect_to              camera_bb3.frame_in
-    bag.gps_heading.pose_samples_out.connect_to           gps_transformer.
-                                                              inputPose
+    bag.camera_firewire_bb2.frame.connect_to        camera_bb2.frame_in
+    bag.camera_firewire_bb3.frame.connect_to        camera_bb3.frame_in
+    bag.gps_heading.pose_samples_out.connect_to     gps_transformer.inputPose
 
-    camera_bb2.left_frame.connect_to                      stereo_bb2.left_frame
-    camera_bb2.right_frame.connect_to                     stereo_bb2.right_frame
-    camera_bb3.left_frame.connect_to                      stereo_bb3.left_frame
-    camera_bb3.right_frame.connect_to                     stereo_bb3.right_frame
+    camera_bb2.left_frame.connect_to                stereo_bb2.left_frame
+    camera_bb2.right_frame.connect_to               stereo_bb2.right_frame
+    camera_bb3.left_frame.connect_to                stereo_bb3.left_frame
+    camera_bb3.right_frame.connect_to               stereo_bb3.right_frame
 
-    # camera_bb2.left_frame.connect_to                      viso2.left_frame
-    # camera_bb2.right_frame.connect_to                     viso2.right_frame
+    # camera_bb2.left_frame.connect_to                viso2.left_frame
+    # camera_bb2.right_frame.connect_to               viso2.right_frame
 
-    stereo_bb2.point_cloud.connect_to                     ga_slam.hazcamCloud
-    stereo_bb3.point_cloud.connect_to                     ga_slam.loccamCloud
-    # stereo_pancam.point_cloud.connect_to                  ga_slam.pancamCloud
-    # viso2.pose_samples_out.connect_to                     ga_slam.poseGuess
-    gps_transformer.outputPose.connect_to                 ga_slam.poseGuess
+    stereo_bb2.point_cloud.connect_to               ga_slam.hazcamCloud
+    stereo_bb3.point_cloud.connect_to               ga_slam.loccamCloud
+    # stereo_pancam.point_cloud.connect_to            ga_slam.pancamCloud
+    # viso2.pose_samples_out.connect_to               ga_slam.poseGuess
+    gps_transformer.outputPose.connect_to           ga_slam.poseGuess
 
     ####### Start Tasks #######
     camera_bb2.start
@@ -112,7 +111,7 @@ do
     # Vizkit.display ga_slam.estimatedPose,
         # :widget => Vizkit.default_loader.TrajectoryVisualization
 
-    Vizkit.display camera_bb2.left_frame
+    # Vizkit.display camera_bb2.left_frame
     Vizkit.display camera_bb3.left_frame
 
     # Vizkit.display stereo_bb2.point_cloud
@@ -128,7 +127,7 @@ do
     ####### Vizkit Replay Control #######
     control = Vizkit.control bag
     control.speed = 1
-    control.seek_to 2600
+    control.seek_to 3800
     control.bplay_clicked
 
     ####### ROS RViz #######
