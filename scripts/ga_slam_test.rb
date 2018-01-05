@@ -11,39 +11,49 @@ Bundles.transformer.load_conf(
 
 Orocos.run(
     ####### Tasks #######
-    # 'camera_bb2::Task' => 'camera_bb2',
+    'camera_bb2::Task' => 'camera_bb2',
     'camera_bb3::Task' => 'camera_bb3',
-    'stereo::Task' => 'stereo',
+    'stereo::Task' => ['stereo_bb2', 'stereo_bb3', 'stereo_pancam'],
     # 'viso2::StereoOdometer' => 'viso2',
     'ga_slam::Task' => 'ga_slam',
+    'pancam_transformer::Task' => 'pancam_transformer',
     'gps_transformer::Task' => 'gps_transformer',
     ####### Debug #######
     # :output => '%m-%p.log',
     # :gdb => ['ga_slam'],
-    # :valgrind => ['stereo'],
+    # :valgrind => ['ga_slam'],
     :valgrind_options => ['--track-origins=yes']) \
 do
     ####### Replay Logs #######
     bag = Orocos::Log::Replay.open(
         '~/rock_bags/bb2.log',
         '~/rock_bags/bb3.log',
+        '~/rock_bags/pancam.log',
         '~/rock_bags/waypoint_navigation.log',
         '~/rock_bags/imu.log',
     )
     bag.use_sample_time = true
 
     ####### Configure Tasks #######
-    # camera_bb2 = TaskContext.get 'camera_bb2'
-    # Orocos.conf.apply(camera_bb2, ['default'], :override => true)
-    # camera_bb2.configure
+    camera_bb2 = TaskContext.get 'camera_bb2'
+    Orocos.conf.apply(camera_bb2, ['default'], :override => true)
+    camera_bb2.configure
 
     camera_bb3 = TaskContext.get 'camera_bb3'
     Orocos.conf.apply(camera_bb3, ['default'], :override => true)
     camera_bb3.configure
 
-    stereo = TaskContext.get 'stereo'
-    Orocos.conf.apply(stereo, ['hdpr_bb3_left_right'], :override => true)
-    stereo.configure
+    stereo_bb2 = TaskContext.get 'stereo_bb2'
+    Orocos.conf.apply(stereo_bb2, ['hdpr_bb2'], :override => true)
+    stereo_bb2.configure
+
+    stereo_bb3 = TaskContext.get 'stereo_bb3'
+    Orocos.conf.apply(stereo_bb3, ['hdpr_bb3_left_right'], :override => true)
+    stereo_bb3.configure
+
+    stereo_pancam = TaskContext.get 'stereo_pancam'
+    Orocos.conf.apply(stereo_pancam, ['panCam'], :override => true)
+    stereo_pancam.configure
 
     # viso2 = TaskContext.get 'viso2'
     # Orocos.conf.apply(viso2, ['bumblebee'], :override => true)
@@ -56,30 +66,51 @@ do
     Bundles.transformer.setup(ga_slam)
     ga_slam.configure
 
+    pancam_transformer = TaskContext.get 'pancam_transformer'
+    Orocos.conf.apply(pancam_transformer, ['default'], :override => true)
+    pancam_transformer.configure
+
     gps_transformer = TaskContext.get 'gps_transformer'
     gps_transformer.configure
 
     ####### Connect Task Ports #######
-    # bag.camera_firewire_bb2.frame.connect_to              camera_bb2.frame_in
-    bag.camera_firewire_bb3.frame.connect_to              camera_bb3.frame_in
-    bag.gps_heading.pose_samples_out.connect_to           gps_transformer.
-                                                              inputPose
+    bag.camera_firewire_bb2.frame.connect_to        camera_bb2.frame_in
+    bag.camera_firewire_bb3.frame.connect_to        camera_bb3.frame_in
 
-    camera_bb3.left_frame.connect_to                      stereo.left_frame
-    camera_bb3.right_frame.connect_to                     stereo.right_frame
-    # camera_bb2.left_frame.connect_to                      viso2.left_frame
-    # camera_bb2.right_frame.connect_to                     viso2.right_frame
+    camera_bb2.left_frame.connect_to                stereo_bb2.left_frame
+    camera_bb2.right_frame.connect_to               stereo_bb2.right_frame
+    camera_bb3.left_frame.connect_to                stereo_bb3.left_frame
+    camera_bb3.right_frame.connect_to               stereo_bb3.right_frame
+    bag.pancam_panorama.left_frame_out.connect_to   stereo_pancam.left_frame
+    bag.pancam_panorama.right_frame_out.connect_to  stereo_pancam.right_frame
 
-    stereo.point_cloud.connect_to                         ga_slam.cloud
-    # viso2.pose_samples_out.connect_to                     ga_slam.poseGuess
-    gps_transformer.outputPose.connect_to                 ga_slam.poseGuess
+    stereo_bb2.point_cloud.connect_to               ga_slam.hazcamCloud
+    stereo_bb3.point_cloud.connect_to               ga_slam.loccamCloud
+    stereo_pancam.point_cloud.connect_to            ga_slam.pancamCloud
+
+    # camera_bb2.left_frame.connect_to                viso2.left_frame
+    # camera_bb2.right_frame.connect_to               viso2.right_frame
+
+    bag.pancam_panorama.
+        tilt_angle_out_degrees.connect_to           pancam_transformer.pitch
+    bag.pancam_panorama.
+        pan_angle_out_degrees.connect_to            pancam_transformer.yaw
+    pancam_transformer.transformation.connect_to    ga_slam.pancamTransformation
+
+    bag.gps_heading.pose_samples_out.connect_to     gps_transformer.inputPose
+
+    # viso2.pose_samples_out.connect_to               ga_slam.poseGuess
+    gps_transformer.outputPose.connect_to           ga_slam.poseGuess
 
     ####### Start Tasks #######
-    # camera_bb2.start
+    camera_bb2.start
     camera_bb3.start
-    stereo.start
+    stereo_bb2.start
+    stereo_bb3.start
+    stereo_pancam.start
     # viso2.start
     ga_slam.start
+    pancam_transformer.start
     gps_transformer.start
 
     ####### Vizkit Display #######
@@ -98,8 +129,11 @@ do
 
     # Vizkit.display camera_bb2.left_frame
     Vizkit.display camera_bb3.left_frame
+    Vizkit.display bag.pancam_panorama.left_frame_out
 
-    # Vizkit.display stereo.point_cloud
+    # Vizkit.display stereo_bb2.point_cloud
+    # Vizkit.display stereo_bb3.point_cloud
+    # Vizkit.display stereo_pancam.point_cloud
     # Vizkit.display viso2.point_cloud_samples_out
     # Vizkit.display ga_slam.processedCloud
     # Vizkit.display ga_slam.mapCloud
@@ -109,8 +143,8 @@ do
 
     ####### Vizkit Replay Control #######
     control = Vizkit.control bag
-    control.speed = 1
-    control.seek_to 2600
+    control.speed = 0.5
+    control.seek_to 3800
     control.bplay_clicked
 
     ####### ROS RViz #######
