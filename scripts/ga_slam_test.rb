@@ -84,8 +84,8 @@ do
     bag.pancam_panorama.left_frame_out.connect_to   stereo_pancam.left_frame
     bag.pancam_panorama.right_frame_out.connect_to  stereo_pancam.right_frame
 
-    # stereo_bb2.point_cloud.connect_to               ga_slam.hazcamCloud
-    # stereo_bb3.point_cloud.connect_to               ga_slam.loccamCloud
+    stereo_bb2.point_cloud.connect_to               ga_slam.hazcamCloud
+    stereo_bb3.point_cloud.connect_to               ga_slam.loccamCloud
     stereo_pancam.point_cloud.connect_to            ga_slam.pancamCloud
 
     # camera_bb2.left_frame.connect_to                viso2.left_frame
@@ -95,6 +95,7 @@ do
         tilt_angle_out_degrees.connect_to           pancam_transformer.pitch
     bag.pancam_panorama.
         pan_angle_out_degrees.connect_to            pancam_transformer.yaw
+    pancam_transformer.transformation.connect_to    ga_slam.pancamTransformation
 
     bag.gps_heading.pose_samples_out.connect_to     gps_transformer.inputPose
 
@@ -134,7 +135,7 @@ do
     # Vizkit.display stereo_bb3.point_cloud
     # Vizkit.display stereo_pancam.point_cloud
     # Vizkit.display viso2.point_cloud_samples_out
-    Vizkit.display ga_slam.processedCloud
+    # Vizkit.display ga_slam.processedCloud
     # Vizkit.display ga_slam.mapCloud
 
     # Vizkit.display ga_slam.rawElevationMap
@@ -142,8 +143,8 @@ do
 
     ####### Vizkit Replay Control #######
     control = Vizkit.control bag
-    control.speed = 1
-    control.seek_to 3900
+    control.speed = 0.5
+    control.seek_to 3800
     control.bplay_clicked
 
     ####### ROS RViz #######
