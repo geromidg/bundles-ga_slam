@@ -67,7 +67,7 @@ do
     ga_slam.configure
 
     pancam_transformer = TaskContext.get 'pancam_transformer'
-    # Orocos.conf.apply(pancam_transformer, ['default'], :override => true)
+    Orocos.conf.apply(pancam_transformer, ['default'], :override => true)
     pancam_transformer.configure
 
     gps_transformer = TaskContext.get 'gps_transformer'
