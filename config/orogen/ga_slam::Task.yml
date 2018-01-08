@@ -25,6 +25,7 @@ minElevation: -2.0
 maxElevation: 2.0
 voxelSize: 0.2
 numParticles: 1
+resampleFrequency: 5
 initialSigmaX: 0.0
 initialSigmaY: 0.0
 initialSigmaYaw: 0.0
