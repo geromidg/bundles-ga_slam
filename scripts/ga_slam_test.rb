@@ -15,9 +15,10 @@ Orocos.run(
     'camera_bb3::Task' => 'camera_bb3',
     'stereo::Task' => ['stereo_bb2', 'stereo_bb3', 'stereo_pancam'],
     # 'viso2::StereoOdometer' => 'viso2',
-    'ga_slam::Task' => 'ga_slam',
     'pancam_transformer::Task' => 'pancam_transformer',
     'gps_transformer::Task' => 'gps_transformer',
+    'cloud_preprocessing::Task' => 'cloud_preprocessing',
+    'ga_slam::Task' => 'ga_slam',
     ####### Debug #######
     # :output => '%m-%p.log',
     # :gdb => ['ga_slam'],
@@ -60,18 +61,22 @@ do
     # Bundles.transformer.setup(viso2)
     # viso2.configure
 
-    ga_slam = TaskContext.get 'ga_slam'
-    # Orocos.conf.apply(ga_slam, ['default'], :override => true)
-    Orocos.conf.apply(ga_slam, ['test'], :override => true)
-    Bundles.transformer.setup(ga_slam)
-    ga_slam.configure
-
     pancam_transformer = TaskContext.get 'pancam_transformer'
     Orocos.conf.apply(pancam_transformer, ['default'], :override => true)
     pancam_transformer.configure
 
     gps_transformer = TaskContext.get 'gps_transformer'
     gps_transformer.configure
+
+    cloud_preprocessing = TaskContext.get 'cloud_preprocessing'
+    Orocos.conf.apply(cloud_preprocessing, ['default'], :override => true)
+    cloud_preprocessing.configure
+
+    ga_slam = TaskContext.get 'ga_slam'
+    # Orocos.conf.apply(ga_slam, ['default'], :override => true)
+    Orocos.conf.apply(ga_slam, ['test'], :override => true)
+    Bundles.transformer.setup(ga_slam)
+    ga_slam.configure
 
     ####### Connect Task Ports #######
     bag.camera_firewire_bb2.frame.connect_to        camera_bb2.frame_in
@@ -102,6 +107,8 @@ do
     # viso2.pose_samples_out.connect_to               ga_slam.poseGuess
     gps_transformer.outputPose.connect_to           ga_slam.poseGuess
 
+    cloud_preprocessing.pointCloud.connect_to      ga_slam.orbiterCloud
+
     ####### Start Tasks #######
     camera_bb2.start
     camera_bb3.start
@@ -109,9 +116,10 @@ do
     stereo_bb3.start
     stereo_pancam.start
     # viso2.start
-    ga_slam.start
     pancam_transformer.start
     gps_transformer.start
+    cloud_preprocessing.start
+    ga_slam.start
 
     ####### Vizkit Display #######
     # Vizkit.display viso2.pose_samples_out,
@@ -128,8 +136,8 @@ do
         # :widget => Vizkit.default_loader.TrajectoryVisualization
 
     # Vizkit.display camera_bb2.left_frame
-    Vizkit.display camera_bb3.left_frame
-    Vizkit.display bag.pancam_panorama.left_frame_out
+    # Vizkit.display camera_bb3.left_frame
+    # Vizkit.display bag.pancam_panorama.left_frame_out
 
     # Vizkit.display stereo_bb2.point_cloud
     # Vizkit.display stereo_bb3.point_cloud
@@ -139,6 +147,8 @@ do
 
     # Vizkit.display ga_slam.rawElevationMap
     # Vizkit.display ga_slam.elevationMap
+
+    # Vizkit.display cloud_preprocessing.pointCloud
 
     ####### Vizkit Replay Control #######
     control = Vizkit.control bag

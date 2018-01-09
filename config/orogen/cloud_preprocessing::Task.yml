@@ -1,0 +1,21 @@
+--- name:default
+plyFilename: '/home/dimi/rock_bags/ebee/densified_cloud.ply'
+voxelSize: 1.0
+sorMeanK: 50
+sorStdMultiplier: 0.8
+rotation:
+    data:
+        - 0.0
+        - 0.0
+        - 0.0
+translation:
+    data:
+        - 0.0
+        - 0.0
+        - 100.0
+box:
+    data:
+        - 100.0
+        - 100.0
+        - 1000.0
+
