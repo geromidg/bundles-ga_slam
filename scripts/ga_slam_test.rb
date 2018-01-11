@@ -69,7 +69,8 @@ do
     gps_transformer.configure
 
     cloud_preprocessing = TaskContext.get 'cloud_preprocessing'
-    Orocos.conf.apply(cloud_preprocessing, ['default'], :override => true)
+    # Orocos.conf.apply(cloud_preprocessing, ['default'], :override => true)
+    Orocos.conf.apply(cloud_preprocessing, ['prepared'], :override => true)
     cloud_preprocessing.configure
 
     ga_slam = TaskContext.get 'ga_slam'
@@ -107,13 +108,13 @@ do
     # viso2.pose_samples_out.connect_to               ga_slam.poseGuess
     gps_transformer.outputPose.connect_to           ga_slam.poseGuess
 
-    cloud_preprocessing.pointCloud.connect_to      ga_slam.orbiterCloud
+    cloud_preprocessing.pointCloud.connect_to       ga_slam.orbiterCloud
 
     ####### Start Tasks #######
     camera_bb2.start
     camera_bb3.start
-    stereo_bb2.start
-    stereo_bb3.start
+    # stereo_bb2.start
+    # stereo_bb3.start
     stereo_pancam.start
     # viso2.start
     pancam_transformer.start

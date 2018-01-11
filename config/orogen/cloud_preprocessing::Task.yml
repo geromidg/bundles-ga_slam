@@ -1,5 +1,7 @@
 --- name:default
-plyFilename: '/home/dimi/rock_bags/ebee/densified_cloud.ply'
+loadFilename: '/home/dimi/rock_bags/ebee/densified_cloud.ply'
+savePreprocessedCloud: true
+saveFilename: '/home/dimi/rock_bags/ebee/densified_cloud.pcd'
 voxelSize: 1.0
 sorMeanK: 50
 sorStdMultiplier: 0.8
@@ -18,4 +20,8 @@ box:
         - 100.0
         - 100.0
         - 1000.0
+
+--- name:prepared
+loadFilename: '/home/dimi/rock_bags/ebee/densified_cloud.pcd'
+preprocessingEnabled: false
 
