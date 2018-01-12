@@ -12,6 +12,9 @@ initialSigmaYaw: 0.0
 predictSigmaX: 0.05
 predictSigmaY: 0.05
 predictSigmaYaw: 3.14/36
+traversedDistanceThreshold: 5.0
+minSlopeThreshold: 0.5
+slopeSumThresholdMultiplier: 10.0
 
 --- name:test
 debugInfoEnabled: true
@@ -32,4 +35,7 @@ initialSigmaYaw: 0.0
 predictSigmaX: 0.0
 predictSigmaY: 0.0
 predictSigmaYaw: 0.0
+traversedDistanceThreshold: 0.0
+minSlopeThreshold: 0.4
+slopeSumThresholdMultiplier: 0.0
 
