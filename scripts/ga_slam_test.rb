@@ -14,7 +14,7 @@ Orocos.run(
     'camera_bb2::Task' => 'camera_bb2',
     'camera_bb3::Task' => 'camera_bb3',
     'stereo::Task' => ['stereo_bb2', 'stereo_bb3', 'stereo_pancam'],
-    # 'viso2::StereoOdometer' => 'viso2',
+    'viso2::StereoOdometer' => 'viso2',
     'pancam_transformer::Task' => 'pancam_transformer',
     'gps_transformer::Task' => 'gps_transformer',
     'cloud_preprocessing::Task' => 'cloud_preprocessing',
@@ -56,10 +56,10 @@ do
     Orocos.conf.apply(stereo_pancam, ['panCam'], :override => true)
     stereo_pancam.configure
 
-    # viso2 = TaskContext.get 'viso2'
-    # Orocos.conf.apply(viso2, ['bumblebee'], :override => true)
-    # Bundles.transformer.setup(viso2)
-    # viso2.configure
+    viso2 = TaskContext.get 'viso2'
+    Orocos.conf.apply(viso2, ['bumblebee'], :override => true)
+    Bundles.transformer.setup(viso2)
+    viso2.configure
 
     pancam_transformer = TaskContext.get 'pancam_transformer'
     Orocos.conf.apply(pancam_transformer, ['default'], :override => true)
@@ -90,12 +90,12 @@ do
     bag.pancam_panorama.left_frame_out.connect_to   stereo_pancam.left_frame
     bag.pancam_panorama.right_frame_out.connect_to  stereo_pancam.right_frame
 
-    # stereo_bb2.point_cloud.connect_to               ga_slam.hazcamCloud
-    # stereo_bb3.point_cloud.connect_to               ga_slam.loccamCloud
+    stereo_bb2.point_cloud.connect_to               ga_slam.hazcamCloud
+    stereo_bb3.point_cloud.connect_to               ga_slam.loccamCloud
     stereo_pancam.point_cloud.connect_to            ga_slam.pancamCloud
 
-    # camera_bb2.left_frame.connect_to                viso2.left_frame
-    # camera_bb2.right_frame.connect_to               viso2.right_frame
+    camera_bb2.left_frame.connect_to                viso2.left_frame
+    camera_bb2.right_frame.connect_to               viso2.right_frame
 
     bag.pancam_panorama.
         tilt_angle_out_degrees.connect_to           pancam_transformer.pitch
