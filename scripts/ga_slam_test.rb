@@ -69,8 +69,8 @@ do
     gps_transformer.configure
 
     cloud_preprocessing = TaskContext.get 'cloud_preprocessing'
-    # Orocos.conf.apply(cloud_preprocessing, ['default'], :override => true)
-    Orocos.conf.apply(cloud_preprocessing, ['prepared'], :override => true)
+    Orocos.conf.apply(cloud_preprocessing, ['default'], :override => true)
+    # Orocos.conf.apply(cloud_preprocessing, ['prepared'], :override => true)
     cloud_preprocessing.configure
 
     ga_slam = TaskContext.get 'ga_slam'
@@ -78,6 +78,9 @@ do
     Orocos.conf.apply(ga_slam, ['test'], :override => true)
     Bundles.transformer.setup(ga_slam)
     ga_slam.configure
+
+    cloud_preprocessing.cropSize = ga_slam.orbiterMapLength
+    cloud_preprocessing.voxelSize = ga_slam.orbiterMapResolution
 
     ####### Connect Task Ports #######
     bag.camera_firewire_bb2.frame.connect_to        camera_bb2.frame_in
@@ -104,6 +107,8 @@ do
     pancam_transformer.transformation.connect_to    ga_slam.pancamTransformation
 
     bag.gps_heading.pose_samples_out.connect_to     gps_transformer.inputPose
+    bag.gps_heading.pose_samples_out.connect_to     cloud_preprocessing.
+                                                        robotPose
 
     # viso2.pose_samples_out.connect_to               ga_slam.poseGuess
     gps_transformer.outputPose.connect_to           ga_slam.poseGuess

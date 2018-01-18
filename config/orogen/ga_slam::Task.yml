@@ -15,6 +15,8 @@ predictSigmaYaw: 3.14/36
 traversedDistanceThreshold: 5.0
 minSlopeThreshold: 0.5
 slopeSumThresholdMultiplier: 10.0
+orbiterMapLength: 100.0
+orbiterMapResolution: 1.0
 
 --- name:test
 debugInfoEnabled: true
@@ -38,4 +40,6 @@ predictSigmaYaw: 0.0
 traversedDistanceThreshold: 0.0
 minSlopeThreshold: 0.4
 slopeSumThresholdMultiplier: 0.0
+orbiterMapLength: 200.0
+orbiterMapResolution: 0.2
 

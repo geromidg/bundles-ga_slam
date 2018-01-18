@@ -1,25 +1,20 @@
 --- name:default
 loadFilename: '/home/dimi/rock_bags/ebee/densified_cloud.ply'
-savePreprocessedCloud: true
 saveFilename: '/home/dimi/rock_bags/ebee/densified_cloud.pcd'
-voxelSize: 1.0
+savePreprocessedCloud: true
+smoothCloud: true
 sorMeanK: 50
 sorStdMultiplier: 0.8
-rotation:
-    data:
-        - 0.0
-        - 0.0
-        - 0.0
-translation:
-    data:
-        - 0.0
-        - 0.0
-        - 100.0
-box:
-    data:
-        - 100.0
-        - 100.0
-        - 1000.0
+cloudYawOffset: -1.5707
+cloudEastingOffset: 344178.0
+cloudNorthingOffset: 3127579.0
+cloudElevationOffset: 2442.0
+robotEastingOffset: 344039.8
+robotNorthingOffset: 3127408.3
+robotElevationOffset: 2543.0
+# robotEastingOffset: 344043.0
+# robotNorthingOffset: 3127403.0
+# robotElevationOffset: 2296.0
 
 --- name:prepared
 loadFilename: '/home/dimi/rock_bags/ebee/densified_cloud.pcd'
