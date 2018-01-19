@@ -114,7 +114,8 @@ do
     # viso2.pose_samples_out.connect_to               ga_slam.poseGuess
     gps_transformer.outputPose.connect_to           ga_slam.poseGuess
 
-    orbiter_preprocessing.pointCloud.connect_to       ga_slam.orbiterCloud
+    orbiter_preprocessing.pointCloud.connect_to     ga_slam.orbiterCloud
+    gps_transformer.outputPose.connect_to           ga_slam.orbiterCloudPose
 
     ####### Start Tasks #######
     camera_bb2.start

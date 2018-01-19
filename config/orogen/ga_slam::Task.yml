@@ -38,6 +38,6 @@ predictSigmaYaw: 0.0
 traversedDistanceThreshold: 0.0
 minSlopeThreshold: 0.4
 slopeSumThresholdMultiplier: 0.0
-orbiterMapLength: 200.0
+orbiterMapLength: 100.0
 orbiterMapResolution: 0.4
 
