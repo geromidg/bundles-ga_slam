@@ -4,7 +4,7 @@ saveFilename: '/home/dimi/rock_bags/ebee/densified_cloud.pcd'
 savePreprocessedCloud: true
 smoothCloud: true
 sorMeanK: 50
-sorStdMultiplier: 0.8
+sorStdMultiplier: 0.1
 cloudYawOffset: -1.5707
 cloudEastingOffset: 344178.0
 cloudNorthingOffset: 3127579.0

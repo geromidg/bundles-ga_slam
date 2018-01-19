@@ -17,7 +17,7 @@ Orocos.run(
     'viso2::StereoOdometer' => 'viso2',
     'pancam_transformer::Task' => 'pancam_transformer',
     'gps_transformer::Task' => 'gps_transformer',
-    'cloud_preprocessing::Task' => 'cloud_preprocessing',
+    'orbiter_preprocessing::Task' => 'orbiter_preprocessing',
     'ga_slam::Task' => 'ga_slam',
     ####### Debug #######
     # :output => '%m-%p.log',
@@ -68,10 +68,10 @@ do
     gps_transformer = TaskContext.get 'gps_transformer'
     gps_transformer.configure
 
-    cloud_preprocessing = TaskContext.get 'cloud_preprocessing'
-    Orocos.conf.apply(cloud_preprocessing, ['default'], :override => true)
-    # Orocos.conf.apply(cloud_preprocessing, ['prepared'], :override => true)
-    cloud_preprocessing.configure
+    orbiter_preprocessing = TaskContext.get 'orbiter_preprocessing'
+    Orocos.conf.apply(orbiter_preprocessing, ['default'], :override => true)
+    # Orocos.conf.apply(orbiter_preprocessing, ['prepared'], :override => true)
+    orbiter_preprocessing.configure
 
     ga_slam = TaskContext.get 'ga_slam'
     # Orocos.conf.apply(ga_slam, ['default'], :override => true)
@@ -79,8 +79,9 @@ do
     Bundles.transformer.setup(ga_slam)
     ga_slam.configure
 
-    cloud_preprocessing.cropSize = ga_slam.orbiterMapLength
-    cloud_preprocessing.voxelSize = ga_slam.orbiterMapResolution
+    # Copy parameters from ga_slam to orbiter_preprocessing
+    orbiter_preprocessing.cropSize = ga_slam.orbiterMapLength
+    orbiter_preprocessing.voxelSize = ga_slam.orbiterMapResolution
 
     ####### Connect Task Ports #######
     bag.camera_firewire_bb2.frame.connect_to        camera_bb2.frame_in
@@ -107,13 +108,13 @@ do
     pancam_transformer.transformation.connect_to    ga_slam.pancamTransformation
 
     bag.gps_heading.pose_samples_out.connect_to     gps_transformer.inputPose
-    bag.gps_heading.pose_samples_out.connect_to     cloud_preprocessing.
+    bag.gps_heading.pose_samples_out.connect_to     orbiter_preprocessing.
                                                         robotPose
 
     # viso2.pose_samples_out.connect_to               ga_slam.poseGuess
     gps_transformer.outputPose.connect_to           ga_slam.poseGuess
 
-    cloud_preprocessing.pointCloud.connect_to       ga_slam.orbiterCloud
+    orbiter_preprocessing.pointCloud.connect_to       ga_slam.orbiterCloud
 
     ####### Start Tasks #######
     camera_bb2.start
@@ -124,7 +125,7 @@ do
     # viso2.start
     pancam_transformer.start
     gps_transformer.start
-    cloud_preprocessing.start
+    orbiter_preprocessing.start
     ga_slam.start
 
     ####### Vizkit Display #######
@@ -154,7 +155,7 @@ do
     # Vizkit.display ga_slam.rawElevationMap
     # Vizkit.display ga_slam.elevationMap
 
-    # Vizkit.display cloud_preprocessing.pointCloud
+    # Vizkit.display orbiter_preprocessing.pointCloud
 
     ####### Vizkit Replay Control #######
     control = Vizkit.control bag

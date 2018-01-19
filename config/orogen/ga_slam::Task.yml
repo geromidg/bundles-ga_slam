@@ -39,5 +39,5 @@ traversedDistanceThreshold: 0.0
 minSlopeThreshold: 0.4
 slopeSumThresholdMultiplier: 0.0
 orbiterMapLength: 200.0
-orbiterMapResolution: 0.2
+orbiterMapResolution: 0.4
 
