@@ -35,6 +35,3 @@ static_transform \
         0.491),
     'left_camera_bb3' => 'body'
 
-static_transform Quaternion.Identity(), Vector.new(0.0, 0.0, 0.57),
-    'body' => 'ground'
-
