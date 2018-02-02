@@ -111,8 +111,8 @@ do
     bag.gps_heading.pose_samples_out.connect_to     orbiter_preprocessing.
                                                         robotPose
 
-    # viso2.delta_pose_samples_out.connect_to         ga_slam.odometryDeltaPose
-    gps_transformer.outputDeltaPose.connect_to      ga_slam.odometryDeltaPose
+    # viso2.pose_samples_out.connect_to               ga_slam.odometryPose
+    gps_transformer.outputPose.connect_to           ga_slam.odometryPose
 
     orbiter_preprocessing.pointCloud.connect_to     ga_slam.orbiterCloud
     gps_transformer.outputPose.connect_to           ga_slam.orbiterCloudPose
