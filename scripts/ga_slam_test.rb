@@ -160,8 +160,8 @@ do
 
     ####### Vizkit Replay Control #######
     control = Vizkit.control bag
-    control.speed = 0.5
-    control.seek_to 3800
+    control.speed = 1.0
+    control.seek_to 4000
     control.bplay_clicked
 
     ####### ROS RViz #######
