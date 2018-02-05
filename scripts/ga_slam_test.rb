@@ -114,6 +114,9 @@ do
     # viso2.pose_samples_out.connect_to               ga_slam.odometryPose
     gps_transformer.outputPose.connect_to           ga_slam.odometryPose
 
+    # Connect IMU (roll, pitch) + Laser Gyro (yaw)
+    gps_transformer.outputPose.connect_to           ga_slam.imuOrientation
+
     orbiter_preprocessing.pointCloud.connect_to     ga_slam.orbiterCloud
     gps_transformer.outputPose.connect_to           ga_slam.orbiterCloudPose
 
@@ -121,8 +124,8 @@ do
     camera_bb2.start
     camera_bb3.start
     # stereo_bb2.start
-    # stereo_bb3.start
-    stereo_pancam.start
+    stereo_bb3.start
+    # stereo_pancam.start
     # viso2.start
     pancam_transformer.start
     gps_transformer.start
@@ -144,7 +147,7 @@ do
         # :widget => Vizkit.default_loader.TrajectoryVisualization
 
     # Vizkit.display camera_bb2.left_frame
-    # Vizkit.display camera_bb3.left_frame
+    Vizkit.display camera_bb3.left_frame
     # Vizkit.display bag.pancam_panorama.left_frame_out
 
     # Vizkit.display stereo_bb2.point_cloud
