@@ -134,17 +134,17 @@ do
 
     ####### Vizkit Display #######
     # Vizkit.display viso2.pose_samples_out,
-        # :widget => Vizkit.default_loader.RigidBodyStateVisualization
+    #     :widget => Vizkit.default_loader.RigidBodyStateVisualization
     # Vizkit.display viso2.pose_samples_out,
-        # :widget => Vizkit.default_loader.TrajectoryVisualization
+    #     :widget => Vizkit.default_loader.TrajectoryVisualization
     # Vizkit.display gps_transformer.outputPose,
     #     :widget => Vizkit.default_loader.RigidBodyStateVisualization
     # Vizkit.display gps_transformer.outputPose,
     #     :widget => Vizkit.default_loader.TrajectoryVisualization
     # Vizkit.display ga_slam.estimatedPose,
-        # :widget => Vizkit.default_loader.RigidBodyStateVisualization
+    #     :widget => Vizkit.default_loader.RigidBodyStateVisualization
     # Vizkit.display ga_slam.estimatedPose,
-        # :widget => Vizkit.default_loader.TrajectoryVisualization
+    #     :widget => Vizkit.default_loader.TrajectoryVisualization
 
     # Vizkit.display camera_bb2.left_frame
     Vizkit.display camera_bb3.left_frame
@@ -156,7 +156,6 @@ do
     # Vizkit.display viso2.point_cloud_samples_out
     # Vizkit.display ga_slam.mapCloud
 
-    # Vizkit.display ga_slam.rawElevationMap
     # Vizkit.display ga_slam.elevationMap
 
     # Vizkit.display orbiter_preprocessing.pointCloud

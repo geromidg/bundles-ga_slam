@@ -20,7 +20,6 @@ orbiterMapResolution: 1.0
 
 --- name:test
 debugInfoEnabled: true
-rawMapDebugEnabled: true
 cloudDebugEnabled: false
 serializationDebugEnabled: true
 mapLength: 20.0
