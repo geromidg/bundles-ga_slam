@@ -1,6 +1,6 @@
 --- name:default
-loadFilename: '/home/dimi/rock_bags/ebee/densified_cloud.ply'
-saveFilename: '/home/dimi/rock_bags/ebee/densified_cloud.pcd'
+loadFilename: '/tmp/ga_slam_test_data/ebee/densified_cloud.ply'
+saveFilename: '/tmp/ga_slam_test_data/ebee/densified_cloud.pcd'
 savePreprocessedCloud: true
 smoothCloud: true
 sorMeanK: 50
@@ -18,6 +18,6 @@ robotElevationOffset: 2543.0
 # robotElevationOffset: 2296.0
 
 --- name:prepared
-loadFilename: '/home/dimi/rock_bags/ebee/densified_cloud.pcd'
+loadFilename: '/tmp/ga_slam_test_data/ebee/densified_cloud.pcd'
 preprocessingEnabled: false
 

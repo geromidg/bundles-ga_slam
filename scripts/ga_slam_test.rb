@@ -111,8 +111,8 @@ do
     bag.gps_heading.pose_samples_out.connect_to     orbiter_preprocessing.
                                                         robotPose
 
-    # viso2.pose_samples_out.connect_to               ga_slam.odometryPose
-    gps_transformer.outputPose.connect_to           ga_slam.odometryPose
+    viso2.pose_samples_out.connect_to               ga_slam.odometryPose
+    # gps_transformer.outputPose.connect_to           ga_slam.odometryPose
 
     # Connect IMU (roll, pitch) + Laser Gyro (yaw)
     gps_transformer.outputPose.connect_to           ga_slam.imuOrientation
@@ -126,7 +126,7 @@ do
     # stereo_bb2.start
     stereo_bb3.start
     # stereo_pancam.start
-    # viso2.start
+    viso2.start
     pancam_transformer.start
     gps_transformer.start
     orbiter_preprocessing.start

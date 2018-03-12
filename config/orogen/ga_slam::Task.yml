@@ -38,13 +38,16 @@ resampleFrequency: 5
 initialSigmaX: 0.0
 initialSigmaY: 0.0
 initialSigmaYaw: 0.0
-predictSigmaX: 0.0
-predictSigmaY: 0.0
-predictSigmaYaw: 0.0
+predictSigmaX: 0.005
+predictSigmaY: 0.005
+predictSigmaYaw: 0.00174
 traversedDistanceThreshold: 100.0
 minSlopeThreshold: 0.4
 slopeSumThresholdMultiplier: 0.0
 matchAcceptanceThreshold: 0.9
+matchYaw: false
+matchYawRange: 3.48
+matchYawStep: 0.0174
 orbiterMapLength: 100.0
 orbiterMapResolution: 0.4
 
